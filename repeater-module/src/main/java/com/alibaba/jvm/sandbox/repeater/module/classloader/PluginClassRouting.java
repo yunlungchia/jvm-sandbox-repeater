@@ -70,15 +70,16 @@ public class PluginClassRouting {
                 .matcher(Matcher.PLUGIN)
                 .block(true)
                 .build();
-        // dubbo回放器中对dubbo框架路由
-        PluginClassRouting dubboRepeaterRouting = PluginClassRouting.builder()
-                .targetClass("org.apache.dubbo.rpc.model.ApplicationModel")
-                .classPattern("^org.apache.dubbo..*")
-                .identity("dubbo")
-                .matcher(Matcher.REPEATER)
-                .block(false)
-                .build();
-        return transformRouting(Lists.newArrayList(httpPluginRouting, dubboRepeaterRouting), isPreloading, timeout);
+        return transformRouting(Lists.newArrayList(httpPluginRouting), isPreloading, timeout);
+//        // dubbo回放器中对dubbo框架路由
+//        PluginClassRouting dubboRepeaterRouting = PluginClassRouting.builder()
+//                .targetClass("org.apache.dubbo.rpc.model.ApplicationModel")
+//                .classPattern("^org.apache.dubbo..*")
+//                .identity("dubbo")
+//                .matcher(Matcher.REPEATER)
+//                .block(false)
+//                .build();
+//        return transformRouting(Lists.newArrayList(httpPluginRouting, dubboRepeaterRouting), isPreloading, timeout);
     }
 
     /**
@@ -116,12 +117,13 @@ public class PluginClassRouting {
      * @return 特殊路由列表
      */
     private static PluginClassLoader.Routing transformRouting(PluginClassRouting routing, boolean isPreloading, Long timeout) {
-        System.out.println("after transformRouting, routing.targetClass:" + routing.targetClass);
+        LogUtil.info("transformRouting, routing.targetClass:{}, isPreloading:{}, timeout:{}", routing.targetClass, isPreloading, timeout);
 
         PluginClassLoader.Routing target = null;
         // 100ms
         timeout = timeout * 10;
         if (routing.match()) {
+            LogUtil.info("matched, findClassInstances sizes :{}", ClassloaderBridge.instance().findClassInstances(routing.targetClass).size());
             while (isPreloading && --timeout > 0 && ClassloaderBridge.instance().findClassInstances(routing.targetClass).size() == 0) {
                 try {
                     Thread.sleep(100);
@@ -144,9 +146,9 @@ public class PluginClassRouting {
         }
 
         if(target != null){
-            System.out.println("res transformRouting, target:" + target.getClass().getClassLoader().getClass().getName());
+            LogUtil.info("res transformRouting, target:{}", target.getClass().getClassLoader().getClass().getName());
         }else {
-            System.out.println("res transformRouting, target is null");
+            LogUtil.info("res transformRouting, target is null");
         }
         return target;
     }

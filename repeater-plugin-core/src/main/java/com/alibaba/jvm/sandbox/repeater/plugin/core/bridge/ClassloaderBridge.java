@@ -1,6 +1,7 @@
 package com.alibaba.jvm.sandbox.repeater.plugin.core.bridge;
 
 import com.alibaba.jvm.sandbox.api.resource.LoadedClassDataSource;
+import com.alibaba.jvm.sandbox.repeater.plugin.core.util.LogUtil;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.apache.commons.lang3.StringUtils;
@@ -100,6 +101,7 @@ public class ClassloaderBridge {
         Iterator<Class<?>> iterator = loadedClassDataSource.iteratorForLoadedClasses();
         while (iterator.hasNext()) {
             final Class<?> next = iterator.next();
+            LogUtil.info("findClassInstance next.getName:{}", next.getName());
             if (className.equals(next.getName()) && !isSandboxLoadedClass(next)) {
                 return next;
             }
@@ -118,7 +120,7 @@ public class ClassloaderBridge {
         Iterator<Class<?>> iterator = loadedClassDataSource.iteratorForLoadedClasses();
         while (iterator.hasNext()) {
             final Class<?> next = iterator.next();
-            System.out.println("next.getName :"+ next.getName() + " next.classLoader.Class.name:" + next.getClassLoader().getClass().getName());
+            LogUtil.info("findClassInstances next.getName:{}", next.getName());
             if (className.equals(next.getName()) && !isSandboxLoadedClass(next)) {
                 classes.add(next);
             }
@@ -139,6 +141,7 @@ public class ClassloaderBridge {
         if(clazz.getClassLoader() == null){
             return false;
         }
+        LogUtil.info("after isSandboxLoadedClass next.getName:{}, next.classLoader.class.name:{}",clazz.getName() ,clazz.getClassLoader().getClass().getName());
         return clazz.getClassLoader().getClass().getName().contains("sandbox");
     }
 }
