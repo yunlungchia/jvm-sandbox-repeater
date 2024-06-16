@@ -116,6 +116,8 @@ public class PluginClassRouting {
      * @return 特殊路由列表
      */
     private static PluginClassLoader.Routing transformRouting(PluginClassRouting routing, boolean isPreloading, Long timeout) {
+        System.out.println("after transformRouting, routing.targetClass:" + routing.targetClass);
+
         PluginClassLoader.Routing target = null;
         // 100ms
         timeout = timeout * 10;
@@ -130,6 +132,7 @@ public class PluginClassRouting {
             }
         }
         List<Class<?>> instances = ClassloaderBridge.instance().findClassInstances(routing.targetClass);
+        System.out.println("instance size :" + instances.size());
         // ensure only one classloader will be found
         if (instances.size() > 1 && routing.block) {
             throw new RuntimeException("found multiple" + routing.targetClass + "loaded in container, can't use start repeater with special routing.");
@@ -138,6 +141,12 @@ public class PluginClassRouting {
             target = new PluginClassLoader.Routing(aClass.getClassLoader(), routing.classPattern);
         } else {
             routing.notFoundAction();
+        }
+
+        if(target != null){
+            System.out.println("res transformRouting, target:" + target.getClass().getClassLoader().getClass().getName());
+        }else {
+            System.out.println("res transformRouting, target is null");
         }
         return target;
     }

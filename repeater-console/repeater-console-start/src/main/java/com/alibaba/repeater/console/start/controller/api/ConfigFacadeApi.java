@@ -1,7 +1,5 @@
 package com.alibaba.repeater.console.start.controller.api;
 
-import java.util.Optional;
-
 import com.alibaba.jvm.sandbox.repeater.plugin.domain.RepeaterConfig;
 import com.alibaba.jvm.sandbox.repeater.plugin.domain.RepeaterResult;
 import com.alibaba.repeater.console.common.domain.ModuleConfigBO;
@@ -29,10 +27,13 @@ public class ConfigFacadeApi {
     @RequestMapping("/config/{appName}/{env}")
     public RepeaterResult<RepeaterConfig> getConfig(@PathVariable("appName") String appName,
                                                     @PathVariable("env") String env) {
+        System.out.println("/facade/api/config/{appName}/{env}, appName:"+ appName + " env:" + env);
         ModuleConfigParams params = new ModuleConfigParams();
         params.setAppName(appName);
         params.setEnvironment(env);
         RepeaterResult<ModuleConfigBO> result = moduleConfigService.query(params);
+        System.out.println("/facade/api/config/{appName}/{env}, res:"+ result.getData().toString());
+
         // fix issue #83 npe
         return RepeaterResult.builder()
                 .success(result.isSuccess())

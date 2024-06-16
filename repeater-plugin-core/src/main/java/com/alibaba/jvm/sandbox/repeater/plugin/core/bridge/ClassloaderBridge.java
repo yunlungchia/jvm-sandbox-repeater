@@ -118,6 +118,7 @@ public class ClassloaderBridge {
         Iterator<Class<?>> iterator = loadedClassDataSource.iteratorForLoadedClasses();
         while (iterator.hasNext()) {
             final Class<?> next = iterator.next();
+            System.out.println("next.getName :"+ next.getName() + " next.classLoader.Class.name:" + next.getClassLoader().getClass().getName());
             if (className.equals(next.getName()) && !isSandboxLoadedClass(next)) {
                 classes.add(next);
             }

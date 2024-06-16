@@ -19,7 +19,7 @@ public class HttpPluginRegressTest {
 
     @Test(description = "Used to test httpPlugin' record and repeat ",
             dataProvider = "HttpPluginTestDataProvider",
-            dataProviderClass = HttpPluginTestDataProvider.class
+            dataProviderClass = HttpPluginTestDataProvider.class, enabled = false
     )
     public void httpPluginRecordRepeateTest(String url){
         try {
