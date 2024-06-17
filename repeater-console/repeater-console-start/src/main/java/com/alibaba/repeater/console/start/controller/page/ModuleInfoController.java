@@ -1,5 +1,6 @@
 package com.alibaba.repeater.console.start.controller.page;
 
+import com.alibaba.jvm.sandbox.repeater.plugin.core.util.LogUtil;
 import com.alibaba.jvm.sandbox.repeater.plugin.domain.RepeaterResult;
 import com.alibaba.repeater.console.common.domain.ModuleInfoBO;
 import com.alibaba.repeater.console.common.domain.PageResult;
@@ -52,12 +53,14 @@ public class ModuleInfoController {
     @ResponseBody
     @RequestMapping("/active.json")
     public RepeaterResult<ModuleInfoBO> active(@ModelAttribute("requestParams") ModuleInfoParams params) {
+        LogUtil.info("active param.appName:{}, param.ip:{}", params.getAppName(), params.getIp());
         return moduleInfoService.active(params);
     }
 
     @ResponseBody
     @RequestMapping("/frozen.json")
     public RepeaterResult<ModuleInfoBO> frozen(@ModelAttribute("requestParams") ModuleInfoParams params) {
+        LogUtil.info("frozen param.appName:{}, param.ip:{}", params.getAppName(), params.getIp());
         return moduleInfoService.frozen(params);
     }
 
@@ -70,6 +73,7 @@ public class ModuleInfoController {
     @ResponseBody
     @RequestMapping("/reload.json")
     public RepeaterResult<String> reload(@ModelAttribute("requestParams") ModuleInfoParams params) {
+        LogUtil.info("reload param.appName:{}, param.ip:{}", params.getAppName(), params.getIp());
         return moduleInfoService.reload(params);
     }
 }
