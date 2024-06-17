@@ -25,13 +25,13 @@ public class PersistenceFacadeApi {
     @Resource
     private ReplayService replayService;
 
-    @RequestMapping(value = "record/{appName}/{traceId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/record/{appName}/{traceId}", method = RequestMethod.GET)
     public RepeaterResult<String> getWrapperRecord(@PathVariable("appName") String appName,
                                                    @PathVariable("traceId") String traceId) {
         return recordService.get(appName, traceId);
     }
 
-    @RequestMapping(value = "repeat/{appName}/{ip}/{traceId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/repeat/{appName}/{ip}/{traceId}", method = RequestMethod.GET)
     public RepeaterResult<String> repeat(@PathVariable("appName") String appName,
                                          @PathVariable("ip") String ip,
                                          @PathVariable("traceId") String traceId,
@@ -46,17 +46,17 @@ public class PersistenceFacadeApi {
         return replayService.replay(params);
     }
 
-    @RequestMapping(value = "record/save", method = RequestMethod.POST)
+    @RequestMapping(value = "/record/save", method = RequestMethod.POST)
     public RepeaterResult<String> recordSave(@RequestBody String body) {
         return recordService.saveRecord(body);
     }
 
-    @RequestMapping(value = "repeat/save", method = RequestMethod.POST)
+    @RequestMapping(value = "/repeat/save", method = RequestMethod.POST)
     public RepeaterResult<String> repeatSave(@RequestBody String body) {
         return replayService.saveRepeat(body);
     }
 
-    @RequestMapping(value = "repeat/callback/{repeatId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/repeat/callback/{repeatId}", method = RequestMethod.GET)
     public RepeaterResult<RepeatModel> callback(@PathVariable("repeatId") String repeatId) {
         return recordService.callback(repeatId);
     }
