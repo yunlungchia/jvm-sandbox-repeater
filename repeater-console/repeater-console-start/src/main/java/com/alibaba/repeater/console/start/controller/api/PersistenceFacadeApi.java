@@ -1,5 +1,6 @@
 package com.alibaba.repeater.console.start.controller.api;
 
+import com.alibaba.jvm.sandbox.repeater.plugin.core.util.LogUtil;
 import com.alibaba.jvm.sandbox.repeater.plugin.domain.RepeatModel;
 import com.alibaba.jvm.sandbox.repeater.plugin.domain.RepeaterResult;
 import com.alibaba.repeater.console.common.params.ReplayParams;
@@ -36,6 +37,8 @@ public class PersistenceFacadeApi {
                                          @PathVariable("ip") String ip,
                                          @PathVariable("traceId") String traceId,
                                          HttpServletRequest request) {
+        LogUtil.info("/repeat/{appName}/{ip}/{traceId} appName:{}, ip:{}, traceId:{}", appName, ip, traceId);
+
         // fix issue #63
         ReplayParams params = ReplayParams.builder()
                 .repeatId(request.getHeader("RepeatId"))
